@@ -7,7 +7,7 @@
 </head>
 <body>
 	<div class="calendar">
-		<div class="days">
+		<div id="calendar-days" class="days">
 			<div class="day-group">
 				<div class="day-group-header">Segunda-feira</div>
 				<div class="day-group-header only-small">2ª</div>
@@ -149,16 +149,16 @@
 			</div>
 		</div>
 		<div class="month-year-selector">
-			<a href="#"><span class="chevron left"></span></a>
-			<div class="cur-month">
+			<a id="previous-month" href="#"><span class="chevron left"></span></a>
+			<div id="cur-month" class="cur-month">
 				<span class="month">Dezembro</span>
 				<span class="year">2017</span>
 			</div>
-			<a href="#"><span class="chevron right"></span></a>
+			<a id="next-month" href="#"><span class="chevron right"></span></a>
 		</div>
 	</div>
 
-	<script type="text/javascript" src="js/moment.js"></script>
+	<script type="text/javascript" src="js/moment-with-locales.js"></script>
 	<script type="text/javascript" src="js/calendar.js"></script>
 </body>
 </html>
