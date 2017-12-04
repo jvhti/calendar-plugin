@@ -1,0 +1,118 @@
+@import 'colors';
+@import 'chevron';
+
+$dayWidth: 84px;
+$dayHeight: 57px;
+
+$dayNumberWidth: 23px;
+$dayNumberHeight: 17px;
+
+.calendar{
+	min-width: 249px;
+	
+	.days{
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		border: 1px solid $borderColor;
+		width: 100%;
+		.day-group{
+			flex-grow: 1;
+	    	flex-basis: 0;
+	    	min-width: 112px;
+			.day-group-header{
+				text-align: center;
+				color: white;
+				background-color: $dayHeaderColor;
+				padding: 5px 10px;
+				border-right: 1px solid $borderColor;
+				max-width: 100%;
+				text-overflow: ellipsis;
+
+				&.only-small, &.only-medium{
+					display: none;
+				}
+			}
+
+			@media (max-width: 795px){
+	    		min-width: auto;
+				.day-group-header{
+					padding: 5px 5px;
+				}
+			}
+
+			@media (min-width: 410px) and (max-width: 740px){
+				.day-group-header{
+					display: none;
+				}
+				.day-group-header.only-medium{
+					display: block;
+				}
+			}
+
+			@media (max-width: 410px){
+				.day-group-header, .day-group-header.only-medium{
+					display: none;
+				}
+				.day-group-header.only-small{
+					display: block;
+				}
+			}
+
+			&:last-child .day-group-header{
+				border-right: none;
+			}
+
+			.day{
+				background-color: $normalDay;
+				height: $dayHeight;
+				margin: 0;
+				padding: 0;
+				border: 1px solid $borderColor;
+				cursor: pointer;
+				.day-number{
+					display: inline-block;
+					width: $dayNumberWidth;
+					height: $dayNumberHeight;
+					background-color: white;
+					padding-left: 5px;
+					padding-top: 5px;
+					font-size: 11px;
+				}
+				&.day-empty{
+					cursor: not-allowed;
+					background-color: $emptyDayColor;
+				}
+				&.day-full{
+					cursor: not-allowed;
+					background-color: $fullDay;
+				}
+				&.day-medium{
+					background-color: $mediumDay;
+				}
+
+			}
+		}
+	}
+
+	.month-year-selector{
+		margin-top: 15px;
+		text-align: center;
+		.cur-month{
+			display: inline-block;
+			background-color: $monthSelectorBGColor;
+			padding: 10px;
+			color: $monthSelectorMonthColor;
+
+			span.month{
+				text-transform: uppercase;
+				font-weight: bold;
+			}
+		}
+		a{
+			color: $monthSelectorButtonsColor;
+			font-size: 22px;
+			vertical-align: middle;
+		}
+	}
+}
