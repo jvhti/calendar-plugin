@@ -13,8 +13,14 @@ var monthDisplay = document.getElementById('cur-month');
 var nextMonth = document.getElementById('next-month');
 var previousMonth = document.getElementById('previous-month');
 var calendarDays = document.getElementById('calendar-days');
+var calendar = document.getElementById('calendar');
+var hourlyOverlayActive = false;
+var showHourly = true;
+
 console.log(week);
+
 var updateMonthDisplay = function() {
+	if(hourlyOverlayActive) closeHourlyView();
 	console.log("Updating Display...");
 	monthDisplay.childNodes[1].innerText = months[calendarDate.month()];
 	monthDisplay.childNodes[3].innerText = calendarDate.year();
@@ -82,8 +88,82 @@ var updateCalendar = function() {
 	}
 }
 
+var updateHourlyView = function(){
+	console.log("Updating Hourly View...");
+}
+
 var openDay = function(day) {
-	alert("Open day "+ day.dataset.day);
+	console.log(day);
+	if(!showHourly) return;
+	if(hourlyOverlayActive) closeHourlyView();
+
+	var node = document.createElement("div");
+	node.className = "hourly-overlay";
+	node.setAttribute("id", "hourlyView");
+
+	var title = document.createElement("div");
+	title.className = "hourly-overlay-title";
+	title.innerHTML = "<p>Dia: "+day.dataset.day+" de "+months[calendarDate.month()]+" de "+calendarDate.year()+"</p><a href=\"#\" class=\"hourly-overlay-close\" onclick=\"closeHourlyView();\">x</a>";
+
+	node.appendChild(title);
+
+	var hvContainer = document.createElement("div");
+	hvContainer.className = "hourly-view";
+	hvContainer.setAttribute('id', 'hourly-view-container');
+
+
+	for (var i = 0; i < 2; i++){
+		var group = document.createElement("div");
+		group.className = "hour-group-12";
+		for (var j = 0; j < 12; j++) {
+			var item = document.createElement("div");
+			item.className = "hour";
+			item.innerHTML = "<p>"+pad((j + (i * 12)), 2)+":00</p>";
+			group.appendChild(item);
+		}
+		hvContainer.appendChild(group);
+	}
+	for (var i = 0; i < 4; i++){
+		var group = document.createElement("div");
+		group.className = "hour-group-6";
+		for (var j = 0; j < 6; j++) {
+			var item = document.createElement("div");
+			item.className = "hour";
+			item.innerHTML = "<p>"+pad((j + (i * 6)), 2)+":00</p>";
+			group.appendChild(item);
+		}
+		hvContainer.appendChild(group);
+	}
+
+	node.appendChild(hvContainer);
+/*
+	var hinp = document.createElement("div");
+	hinp.className = "hour-inputs";
+	hinp.innerHTML = "\
+					<div class=\"hour-inputs-inside\">\
+						<input type=\"text\" name=\"inicio\" value=\"00:00\">\
+						até\
+						<input type=\"text\" name=\"fim\" value=\"10:00\">\
+						<br>\
+						<button>Reservar</button>\
+						<button onclick=\"closeHourlyView();\">Cancelar</button>\
+					</div>";
+
+
+	hvContainer.appendChild(hinp);
+*/
+	calendar.appendChild(node);
+	hourlyOverlayActive = true;
+	setTimeout(() => {node.classList.add("open");}, 100);
+	
+}
+
+var closeHourlyView = function(){
+	document.getElementById("hourlyView").classList.remove("open");
+	setTimeout(() => {
+		document.getElementById("hourlyView").outerHTML = '';
+		hourlyOverlayActive = false;
+	}, 600);
 }
 
 nextMonth.onclick = function() {
@@ -95,5 +175,11 @@ previousMonth.onclick = function() {
 	calendarDate.subtract(1, 'M');
 	updateMonthDisplay();
 };
+
+function pad(num, size) {
+    var s = num+"";
+    while (s.length < size) s = "0" + s;
+    return s;
+}
 
 updateMonthDisplay();

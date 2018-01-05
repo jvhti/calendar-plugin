@@ -9,7 +9,7 @@ $dayNumberHeight: 17px;
 
 .calendar{
 	min-width: 249px;
-
+	position: relative;
 	.days{
 		display: flex;
 		flex-direction: row;
@@ -71,6 +71,7 @@ $dayNumberHeight: 17px;
 				border: 1px solid $borderColor;
 				cursor: pointer;
 				.day-number{
+					pointer-events: none;
 					display: inline-block;
 					width: $dayNumberWidth;
 					height: $dayNumberHeight;
@@ -113,6 +114,114 @@ $dayNumberHeight: 17px;
 			color: $monthSelectorButtonsColor;
 			font-size: 22px;
 			vertical-align: middle;
+		}
+	}
+
+	.hourly-overlay{
+		position: absolute;
+		top: 100%;
+		right: -1px;
+		left: -1px;
+		bottom: 53px;
+		background-color: $hourlyOverlayBGColor;
+		opacity: 0;
+
+		&.open{
+			top: 0;
+			opacity: 1;
+		}
+
+		transition: all 600ms ease-in-out;
+
+		.hourly-overlay-title{
+			color: white;
+			
+			p{
+				font-size: 18px;
+				margin: 0;
+				padding: 5px 10px;
+				text-align: center;
+				background-color: $dayHeaderColor;
+			}
+
+			a{
+				color: white;
+				position: absolute;
+				left: 5px;
+				top: 5px;
+				text-decoration: none;
+			}
+		}
+		.hourly-view{
+			height: 100%;
+			@media (max-width: 580px){
+				.hour-group-12{
+					display: none !important;
+				}
+				.hour-group-6{
+					display: flex !important;
+				}
+			}
+			.hour-group-12,
+			.hour-group-6{
+				width: 100%;
+				display: flex;
+				margin: 0;
+				padding: 0;
+				.hour{
+					position: relative;
+					display: inline-block;
+					margin: 0;
+					padding: 0;
+					width: 100%;
+					height: 50px;
+					background-color: $normalHourColor;
+					border: 1px solid black;
+					border-top: none;
+					border-bottom: none;
+					&:not(:first-child){
+						border-left: none;
+					}
+					p{
+						position: absolute;
+						padding: 0;
+						margin: 0;
+						top: 50%;
+						left: 50%;
+						transform: translate(-50%, -50%);
+					}
+
+					&.full{
+						background-color: $fullHourColor;
+					}
+				}
+				border-bottom: 1px solid black;
+			}
+
+			.hour-group-6{
+				display: none;
+			}
+
+			.hour-inputs{
+				position: relative;
+				display: block;
+				height: 50%;
+				.hour-inputs-inside{
+					text-align: center;
+				    position: absolute;
+				    left: 50%;
+				    top: 50%;
+				    transform: translate(-50%,-50%);
+				    input{
+				    	height: 35px;
+					    width: 60px;
+					    margin: 0;
+					    border: 0;
+					    padding: 0 10px;
+					    margin-bottom: 15px;
+				    }
+				}
+			}
 		}
 	}
 }
